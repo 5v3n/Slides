@@ -48,8 +48,15 @@
 							prev = current;
 							// get next from current + 1
 							next = current + 1;
-							// if last slide, set next to first slide
-							next = total === next ? 0 : next;
+							// if last slide and looping, set next to first slide.
+							if(next === total) {
+								if(option.loop)
+									next = 0;
+								else {
+									stop();
+									option.loopComplete();
+								}
+							}
 							// set position of next slide to right of previous
 							position = width*2;
 							// distance to slide based on width of slides
@@ -500,7 +507,9 @@
 		autoHeightSpeed: 350, // number, Set auto height animation time in milliseconds
 		bigTarget: false, // boolean, Set to true and the whole slide will link to next slide on click
 		animationStart: function(){}, // Function called at the start of animation
-		animationComplete: function(){} // Function called at the completion of animation
+		animationComplete: function(){}, // Function called at the completion of animation
+		loop: true,
+		loopComplete: function(){}
 	};
 	
 	// Randomize slide order on load
